@@ -8,7 +8,7 @@
 
 ## 선택 후처리 (요청 시에만)
 
-요약이 끝난 뒤 사용자가 요청하면 윤문 → 번역 → 오디오북 순으로 얹을 수 있다. 명시적 요청이 없으면 요약·번역·오디오북 모두 원문 언어를 따른다. 번역은 목표 언어 미지정 시 한국어로, 재요약 없이 1:1로 옮긴다. 오디오북 생성에는 [speech-toolkit](https://github.com/Engccer/speech-toolkit)의 ElevenLabs TTS 스크립트가 필요하다(별도 설치, 유료 API 비용 발생).
+요약이 끝난 뒤 사용자가 요청하면 윤문 → 번역 → 오디오북 순으로 얹을 수 있다. 명시적 요청이 없으면 요약·번역·오디오북 모두 원문 언어를 따른다. 번역은 목표 언어 미지정 시 한국어로, 재요약 없이 1:1로 옮긴다. 오디오북 생성은 이 저장소에 동봉된 ElevenLabs TTS 스크립트(`scripts/elevenlabs_tts.py`)로 수행하므로 별도 스킬 설치가 필요 없다(Python + `elevenlabs` 패키지 + `ELEVENLABS_API_KEY` 필요, 유료 API 비용 발생. 원본: [speech-toolkit](https://github.com/Engccer/speech-toolkit)).
 
 ## 설치
 
@@ -30,7 +30,7 @@ abridge is a Claude Code skill for creating tone-preserving, extractive (abridge
 
 **Workflow:** structure mapping (lock the author's outline first) → extraction (pull key sentences verbatim) → surgical cuts (trim filler, keep sentence form) → voice and quote preservation (keep distinctive phrasing, quote 1-3 memorable lines directly) → forbidden-phrase filter (strip AI cliches and em dashes, then check length/structure/faithfulness). Default target length is 15-25% of the original.
 
-**Optional post-processing (only when explicitly requested):** tone polishing, translation (defaults to Korean if no target language is given, 1:1 faithful, no re-summarizing), and audiobook narration via [speech-toolkit](https://github.com/Engccer/speech-toolkit)'s ElevenLabs TTS script (separate install, paid API).
+**Optional post-processing (only when explicitly requested):** tone polishing, translation (defaults to Korean if no target language is given, 1:1 faithful, no re-summarizing), and audiobook narration via the bundled ElevenLabs TTS script (`scripts/elevenlabs_tts.py`; no extra skill install needed; requires Python, the `elevenlabs` package, and a paid `ELEVENLABS_API_KEY`; upstream source: [speech-toolkit](https://github.com/Engccer/speech-toolkit)).
 
 **Install:**
 
