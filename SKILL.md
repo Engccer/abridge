@@ -3,20 +3,16 @@ name: abridge
 description: >-
   문서·글·책·아티클을 원문의 톤 앤 매너(저자의 목소리·문체·리듬)를 보존하면서 분량만 줄이는
   abridged(축약본·발췌본) 요약을 만들 때 사용. Blinkist 스타일 요약, 원문에 충실한 요약, LLM
-  전형 요약체(불릿 나열·평탄한 설명체·매끈하게 재서술)를 피하고 원저자 목소리를 살린 요약을 원할 때
-  반드시 사용. 추출 우선 + 원문 인용 보존 + 저자 구조 유지 + AI 상투어 제거 워크플로.
-  트리거: "원문 톤 살려서 요약", "발췌형·축약 요약", "Blinkist 스타일로 요약", "저자 목소리 유지하며
-  요약", "AI 티 안 나게 요약", "초록 말고 축약본", "원문 어투 그대로 줄여줘". 명시적 요청이 있을 때만
-  다른 언어로 번역(목표 언어 미지정 시 한국어)하거나 ElevenLabs로 오디오북(audiobook·음성·MP3
-  나레이션)을 만드는 후처리도 이 스킬이 담당("요약해서 한국어로 번역", "요약 오디오북으로", "요약
-  음성으로 읽어줘"). 번역 요청이 없으면 요약도 오디오북도 원문 언어 그대로 만든다(오디오북 요청 자체는
-  번역 요청이 아님). 음성·영상 전사와 그 요약, 수신 메일 요약, 팟캐스트 요약은 이 스킬 범위 밖이다(각각
-  전용 도구로 처리할 것, 중복 금지). Use when summarizing or condensing a document while
-  preserving the author's voice and tone (abridged, Blinkist-style, faithful summary), avoiding
-  the generic flat LLM summary style; also handles optional post-steps, only when explicitly
-  requested: translating the summary (target language defaults to Korean if unspecified) and
-  turning it into an ElevenLabs audiobook (MP3 narration). Absent an explicit translation
-  request, both the summary and the audiobook stay in the source document's language.
+  전형 요약체(불릿 나열·평탄한 재서술)를 피하고 싶을 때 반드시 사용. 추출 우선 + 원문 인용 보존 +
+  저자 구조 유지 + AI 상투어 제거 워크플로. 트리거: "원문 톤 살려서 요약", "발췌형·축약 요약",
+  "Blinkist 스타일로 요약", "저자 목소리 유지하며 요약", "AI 티 안 나게 요약", "초록 말고 축약본",
+  "원문 어투 그대로 줄여줘". 명시적 요청이 있을 때만 번역(목표 언어 미지정 시 한국어)과 ElevenLabs
+  오디오북(audiobook·MP3 나레이션) 후처리도 담당하며, 번역 요청이 없으면 요약도 오디오북도 원문
+  언어 그대로 만든다. 음성·영상 전사와 그 요약, 수신 메일 요약, 팟캐스트 요약은 범위 밖(전용 도구로
+  처리). Use when summarizing a document while preserving the author's voice and tone
+  (abridged, Blinkist-style, faithful summary), avoiding the generic flat LLM summary style.
+  Optional post-steps on explicit request only: translation (defaults to Korean) and an
+  ElevenLabs audiobook; absent a translation request, both stay in the source language.
 ---
 
 # abridge: 원문 톤을 살린 발췌형 요약
@@ -141,5 +137,4 @@ python <speech-toolkit>/TTS/elevenlabs_tts.py 요약본.md --single --voice Yuna
 |------|------|
 | `references/techniques.md` | 5단계 기법의 근거·출처·장르별 주의점 |
 | `references/forbidden_phrases.md` | AI 상투어·평탄화 어구 금지 목록(한/영) |
-| `references/_changelog_local.md` | 회고 메모(로컬 전용, git 추적 제외) |
-| `scripts/` | (필요 시 검증 스크립트: 압축률·금지어·인용 보존 체크) |
+| `references/_changelog_local.md` | 작업 회고 메모를 쌓는 로컬 전용 파일(git 추적 제외, 없으면 새로 만들어 사용) |
