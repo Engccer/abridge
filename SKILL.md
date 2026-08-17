@@ -6,11 +6,10 @@ description: >-
   전형 요약체(불릿 나열·평탄한 재서술)를 피하고 싶을 때 반드시 사용. 추출 우선 + 원문 인용 보존 +
   저자 구조 유지 + AI 상투어 제거 워크플로. 트리거: "원문 톤 살려서 요약", "발췌형·축약 요약",
   "Blinkist 스타일로 요약", "저자 목소리 유지하며 요약", "AI 티 안 나게 요약", "초록 말고 축약본",
-  "원문 어투 그대로 줄여줘". 장르 제한은 없다. 산문뿐 아니라 인터뷰·대담·강연·회의의 전사본처럼
-  화자가 여럿인 텍스트에도 적용하며, 그 경우 화자의 말투와 주고받는 구조를 보존한다. 다만 음성·영상
-  파일 자체를 텍스트로 만드는 전사는 이 스킬이 하지 않으므로 전사 도구로 먼저 처리한다. 명시적
-  요청이 있을 때만 번역(목표 언어 미지정 시 한국어)과 ElevenLabs 오디오북(audiobook·MP3 나레이션)
-  후처리도 담당하며, 번역 요청이 없으면 요약도 오디오북도 원문 언어 그대로 만든다.
+  "원문 어투 그대로 줄여줘". 산문뿐 아니라 인터뷰·대담·강연·회의 전사본처럼 화자가 여럿인
+  텍스트에도 적용하며, 그 경우 화자의 말투와 주고받는 구조를 보존한다. 명시적 요청이 있을 때만
+  번역(목표 언어 미지정 시 한국어)과 ElevenLabs 오디오북(audiobook·MP3 나레이션) 후처리도
+  담당하며, 번역 요청이 없으면 요약도 오디오북도 원문 언어 그대로 만든다.
   Use when summarizing a document while preserving the author's voice and tone
   (abridged, Blinkist-style, faithful summary), avoiding the generic flat LLM summary style.
   Optional post-steps on explicit request only: translation (defaults to Korean) and an
@@ -37,7 +36,7 @@ LLM이 요약하면 톤이 평탄해진다. 이건 버그가 아니라 RLHF가 �
 - HWP·HWPX: `hwpx-automation` 스킬로 읽기( https://github.com/Engccer/hwpx-automation )
 - DOCX·PPTX·XLSX 등: 에이전트가 쓸 수 있는 로컬 파싱 수단(전용 스킬이나 라이브러리)으로 텍스트 추출
 - 웹 페이지(URL): 본문 추출 도구로 추출(예: `defuddle` 스킬, kepano/obsidian-skills 수록). 없으면 페이지를 가져와 본문만 남긴다
-- 음성·영상: 전사는 이 스킬이 하지 않는다. 전사 도구로 먼저 텍스트를 만든 뒤 그 전사본을 입력으로 넘긴다. **전사본이 확보됐다면 그 요약은 이 스킬의 대상이다**(대화체 처리는 `references/techniques.md` §3 참조)
+- 음성·영상: 전사 도구로 텍스트를 만든 뒤 그 전사본을 넘긴다(대화체 처리는 `references/techniques.md` §3-1 참조)
 
 원문을 손에 넣었으면 통독부터 한다. 요약은 전체를 읽은 다음에 시작한다. 앞부분만 보고 줄이면 저자의 논지 전개를 놓친다.
 
