@@ -15,7 +15,7 @@ description: >-
   Optional post-steps on explicit request only: translation (defaults to Korean) and an
   ElevenLabs audiobook; absent a translation request, both stay in the source language.
 metadata:
-  version: "1.0.0"
+  version: "1.1.0"
 ---
 
 # abridge: 원문 톤을 살린 발췌형 요약
@@ -126,7 +126,9 @@ python <abridge>/scripts/elevenlabs_tts.py 요약본.md --single --voice Yuna --
 - **반드시 `--single`**(단일 나레이션). 요약본에 `화자: 대사` 콜론 패턴이 우연히 2개 이상 있으면 스크립트가 다중화자 모드로 오인하므로 단일 나레이션을 강제한다.
 - **음성은 읽는 텍스트의 언어를 따른다.** 오디오북에 넣는 텍스트(원문 언어 요약본인지 번역본인지)의 언어를 먼저 확인하고, 그 언어에 맞는 음성을 `--voice`로 **반드시 명시**한다. 모델이 `eleven_v3` 다국어라 본문 언어 그대로 발음하지만(별도 언어 플래그 없음), 스크립트 기본 음성이 한국어 음성 `Yuna`라 `--voice`를 비우면 영어 요약본도 한국어 음성이 영어를 읽는 부조화가 난다. 한국어는 `Yuna`(또는 `DoHyeon`), 영어는 `James` 류. 사용자가 음성을 지정하면 그대로 쓰고, `--list-voices`로 목록을 확인한다.
 - **속도·안정성**: 오디오북 낭독은 `--speed 0.9~1.0`, 안정적 톤은 `--stability 0.5` 부근.
-- **긴 요약본**: ElevenLabs `text_to_speech`는 **요청당 약 5,000자 한도**이고 `elevenlabs_tts.py`는 자동 청킹을 하지 않는다(초과 시 `text_too_long` 400으로 실패). 한도를 넘기면 **문단 경계로 4,500자 미만 청크로 나눠** 각각 `--single`로 변환한 뒤(`<청크>_elevenlabs.mp3`), `ffmpeg -f concat -safe 0 -i list.txt -c copy out.mp3`로 이어 붙인다(동일 음성·속도면 재인코딩 없이 copy로 충분, dts 모노토닉 경고는 무시 가능). 장 구조가 뚜렷한 책 길이 출력이면 챕터 분할·무음 검증·concat을 갖춘 전용 오디오북 제작 도구로 위임하는 편이 낫다(단 그런 도구는 한국어를 기본적으로 다른 TTS 엔진으로 보낼 수 있으므로, ElevenLabs를 강제하려면 음성 옵션을 맞춰 준다).
+- **장문은 입력 한도와 별개로 분할한다.** 모델별 공식 입력 한도는 [ElevenLabs 모델 문서](https://elevenlabs.io/docs/overview/models)로 확인한다. 동봉 `elevenlabs_tts.py`는 자동 청킹을 하지 않는다. 한국어 3,244자를 `eleven_v3`·Yuna·speed 1.0으로 보냈을 때, 정상 종료된 551.92초 MP3의 뒤쪽 내용이 빠진 사례가 있다. 5,000자보다 짧다고 완결성이 보장되지 않으며, 약 550초는 관측된 값이지 공식 고정 상한으로 단정하지 않는다.
+- **한국어 Yuna 장문 기본값**: 문단·문장 경계에서 약 1,000자 이하로 나눠 각각 `--single --voice Yuna --speed 1.0`으로 합성한다. 기존 길이 검증 빌더가 설치돼 있으면 재사용한다. 시간 기준 빌더의 경우 목표 240초 정도로 나눈다. 다른 언어·속도에서는 발화 속도를 실측해 조정한다. 청크별 예상 길이와 실제 길이를 비교한 뒤 `ffmpeg -f concat -safe 0 -i list.txt -c copy out.mp3`로 합친다. 원문과 청크를 공백 정규화해 대조하여 누락·중복 없이 분할됐는지도 확인한다.
+- **완결성 검증**: `ffprobe` 재생 길이와 `ffmpeg` 전체 디코딩 통과는 파일 형식 검증일 뿐이다. 생성 음성을 전사하거나 직접 들어 각 청크 끝과 최종 문장, 섹션 누락을 원고와 대조한다. 실제 길이만 정상이라고 완료를 선언하지 않는다. 누락된 파일은 원인 확인용으로 보존하고 수정본을 별도 이름으로 만든다.
 - **Windows 함정**: cp949 콘솔에서 `elevenlabs_tts.py --help`·`--list-voices`가 em dash(U+2014) 출력 중 `UnicodeEncodeError`로 죽는다. `export PYTHONUTF8=1 PYTHONIOENCODING=utf-8`을 먼저 설정하면 우회된다(TTS 본 변환에도 안전).
 - **속도 기본값 주의**: `elevenlabs_tts.py`의 `--speed` 미지정 시 기본 1.2로 빠르게 낭독된다. 오디오북은 `--speed 1.0`(또는 0.9)을 **명시**한다.
 - 생성한 MP3는 합성 음성이므로, 외부에 공유·게시할 때는 AI 합성 음성임을 밝힌다.
