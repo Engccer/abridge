@@ -122,7 +122,7 @@ python <abridge>/scripts/elevenlabs_tts.py 요약본_낭독.txt --single --voice
 ```
 
 - 출력은 `<입력>_elevenlabs.mp3`. 환경변수 `ELEVENLABS_API_KEY`와 Python 패키지 `elevenlabs`가 필요하다(`pip install elevenlabs`, 미설치 시 스크립트가 설치 명령을 안내한다).
-- **반드시 `--single`**(단일 나레이션). 요약본에 `화자: 발언`처럼 콜론이 든 줄이 여럿 있으면(라벨 있는 전사본 요약 포함) 스크립트가 다중화자 모드로 바꾸므로 단일 나레이션을 강제한다. 화자 라벨은 그대로 읽힌다.
+- **반드시 `--single`**(단일 나레이션). 요약본에 `화자: 발언`처럼 콜론이 든 줄이 여럿 있으면(라벨 있는 전사본 요약 포함) 스크립트가 다중화자 모드로 바꿀 수 있으므로 단일 나레이션을 강제한다. 화자 라벨은 그대로 읽힌다.
 - **음성은 읽는 텍스트의 언어를 따른다.** 오디오북에 넣는 텍스트(원문 언어 요약본인지 번역본인지)의 언어를 먼저 확인하고, 그 언어에 맞는 음성을 `--voice`로 **반드시 명시**한다. 모델이 `eleven_v3` 다국어라 본문 언어 그대로 발음하지만(별도 언어 플래그 없음), 스크립트 기본 음성이 한국어 음성 `Yuna`라 `--voice`를 비우면 영어 요약본도 한국어 음성이 영어를 읽는 부조화가 난다. 한국어는 `Yuna`(또는 `DoHyeon`), 영어는 `James` 류. 사용자가 음성을 지정하면 그대로 쓰고, `--list-voices`로 목록을 확인한다.
 - **속도·안정성**: 오디오북은 `--speed 1.0`(또는 0.9)을 **명시**한다. 미지정 시 기본 1.2로 빠르게 낭독된다. 안정적 톤은 `--stability 0.5` 부근.
 - **장문은 입력 한도와 별개로 분할한다.** 모델별 공식 입력 한도는 [ElevenLabs 모델 문서](https://elevenlabs.io/docs/overview/models)로 확인한다. 동봉 `elevenlabs_tts.py`는 자동 청킹을 하지 않는다. 공식 한도보다 짧아도 뒷부분이 빠질 수 있다. → 사례
@@ -135,7 +135,7 @@ python <abridge>/scripts/elevenlabs_tts.py 요약본_낭독.txt --single --voice
 스킬 사용 직후 가볍게 회고하고, 다음은 발견 즉시 반영한다. 절차로 굳는 교훈은 이 SKILL.md나 `references/`에, 단발 사실은 사용자 메모리에 남긴다.
 
 - 새로 발견한 AI 상투어·평탄화 어구: `references/forbidden_phrases.md`에 추가
-- 톤 보존이 깨진 패턴과 그 원인: `references/_changelog_local.md`에 `YYYY-MM-DD` 메모
+- 톤 보존이 깨진 패턴과 그 원인: `references/cases.md`의 해당 절(공개 저장소이므로 개인 경로·이름을 쓰지 않는다)
 - 특정 장르(논문·소설·칼럼·기술 문서)에서 통한 조정: `references/techniques.md`의 해당 항목 보강
 
 ## 파일 인덱스
@@ -144,6 +144,5 @@ python <abridge>/scripts/elevenlabs_tts.py 요약본_낭독.txt --single --voice
 |------|------|
 | `references/techniques.md` | 5단계 기법의 근거·출처·장르별 주의점 |
 | `references/forbidden_phrases.md` | AI 상투어·평탄화 어구 금지 목록(한/영) |
-| `references/cases.md` | 규칙의 근거가 된 관찰·수치 |
+| `references/cases.md` | 규칙의 근거가 된 관찰·수치, 톤 보존이 깨진 사례 |
 | `scripts/elevenlabs_tts.py` | 오디오북용 ElevenLabs TTS(speech-toolkit 사본) |
-| `references/_changelog_local.md` | 작업 회고 메모를 쌓는 로컬 전용 파일(git 추적 제외, 없으면 새로 만들어 사용) |
