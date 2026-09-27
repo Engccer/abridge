@@ -15,7 +15,7 @@ description: >-
   Optional post-steps on explicit request only: translation (defaults to Korean) and an
   ElevenLabs audiobook; absent a translation request, both stay in the source language.
 metadata:
-  version: "1.2.0"
+  version: "1.3.0"
 ---
 
 # abridge: 원문 톤을 살린 발췌형 요약
